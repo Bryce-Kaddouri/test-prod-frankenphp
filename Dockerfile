@@ -1,5 +1,7 @@
 FROM dunglas/frankenphp
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 # Be sure to replace "your-domain-name.example.com" by your domain name
 ENV SERVER_NAME=bakerysystem.bryce-kaddouri.ie
 # If you want to disable HTTPS, use this value instead:
