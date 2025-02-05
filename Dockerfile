@@ -10,7 +10,13 @@ ENV SERVER_NAME=bakerysystem.bryce-kaddouri.ie
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-# install composer
+# Install required packages for Composer and PHP extensions
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy the PHP files of your project in the public directory
@@ -18,8 +24,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # If you use Symfony or Laravel, you need to copy the whole project instead:
 COPY . /app
 
-RUN composer install
+RUN composer install --prefer-dist --no-progress --no-suggest
 
 EXPOSE 80 443 443/udp
-
-
